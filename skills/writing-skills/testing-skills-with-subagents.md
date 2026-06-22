@@ -10,9 +10,18 @@ You run scenarios without the skill (RED - watch agent fail), write skill addres
 
 **Core principle:** If you didn't watch an agent fail without the skill, you don't know if the skill prevents the right failures.
 
-**REQUIRED BACKGROUND:** You MUST understand superpowers:test-driven-development before using this skill. That skill defines the fundamental RED-GREEN-REFACTOR cycle. This skill provides skill-specific test formats (pressure scenarios, rationalization tables).
+**This reference is self-contained:** Do not load an external TDD skill for background. The RED-GREEN-REFACTOR basics needed for skill testing are defined below.
 
 **Complete worked example:** See examples/CLAUDE_MD_TESTING.md for a full test campaign testing CLAUDE.md documentation variants.
+
+## TDD Basics
+
+TDD means:
+1. **RED:** Write a failing test first, and watch it fail for the expected reason.
+2. **GREEN:** Make the smallest change that passes the test.
+3. **REFACTOR:** Improve the implementation while keeping tests green.
+
+For skill testing, the "test" is a subagent pressure scenario. The baseline failure shows what the skill must prevent. The passing run verifies the skill changes agent behavior under pressure.
 
 ## When to Use
 
