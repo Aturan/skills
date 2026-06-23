@@ -1,6 +1,6 @@
 ---
-name: "agent-architect"
-description: "当用户想要编写、修改、评测或优化项目的 `agents.md` 或 `CLAUDE.md` 配置文件时触发。用于确保 AI 行为规则的高确定性和零幻觉。"
+name: agent-architect
+description: Triggered whenever creating, modifying, evaluating, or optimizing any AI system prompts, behavioral rules, instructions, or developer configuration files (e.g., AGENTS.md, CLAUDE.md). Enforces maximum determinism and zero hallucination in AI behaviors.
 ---
 
 # 技能：Agent 配置文件架构师 (Agent Architect)
