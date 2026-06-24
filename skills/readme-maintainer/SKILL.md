@@ -52,7 +52,7 @@ description: Must be Triggered during README edits or general spec-driven workfl
 - **输出规范**：README 里的代码块必须包含且仅包含：
   1. 一个最简洁的成功调用示例（Happy Path）。
   2. 一个异常捕获示例（Unhappy Path）。
-  3. 显式标注其副作用（如：`# 副作用：会写入 Redis 并引发 1 次 DB 查询`）。
+  3. 显式标注其隐藏的潜在影响（如：`# 潜在影响：会使用 curl 安装系统软件`）。
 
 ### 4. 规范路由引流 (Spec Redirecting)
 
