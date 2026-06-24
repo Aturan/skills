@@ -1,6 +1,6 @@
 ---
 name: readme-maintainer
-description: Must be Triggered during README edits or general spec-driven workflows (applying changes, syncing specs). Enforces the Façade-Index methodology to sync documentation with system contracts.
+description: Helps maintain READMEs and spec-driven documentation by applying the Façade-Index methodology to keep docs in sync with system contracts.
 ---
 
 # README Maintenance (Façade-Index Methodology)

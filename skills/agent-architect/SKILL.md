@@ -1,6 +1,6 @@
 ---
 name: agent-architect
-description: Triggered whenever creating, modifying, evaluating, or optimizing any AI system prompts, behavioral rules, instructions, or developer configuration files (e.g., AGENTS.md, CLAUDE.md). Enforces maximum determinism and zero hallucination in AI behaviors.
+description: Helps craft, review, and optimize AI system prompts, behavioral rules, and developer configuration files such as AGENTS.md and CLAUDE.md, enforcing deterministic and hallucination-free AI behavior.
 ---
 
 # 技能：Agent 配置文件架构师 (Agent Architect)
