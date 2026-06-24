@@ -1,5 +1,5 @@
 ---
-name: readme-maintainer
+name: writing-readme
 description: Helps maintain READMEs and spec-driven documentation by applying the Façade-Index methodology to keep docs in sync with system contracts.
 ---
 
