@@ -52,7 +52,7 @@ description: Helps maintain READMEs and spec-driven documentation by applying th
 - **输出规范**：
 
   ```markdown
-  - [JWT 签名与刷新逻辑规范] specs/auth/jwt_spec.md
+  - [JWT 签名与刷新逻辑规范](specs/auth/jwt_spec.md)
   ```
 
   - **不强制回链**：如果当前 `README.md` 本身已经被仓库根 `README.md` 或父级目录文档引用，则**不需要**再向这些上级文档回链。README 是门面与索引，不是知识库，不需要双向链接来建立关联。
