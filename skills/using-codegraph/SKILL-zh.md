@@ -1,4 +1,4 @@
-# CodeGraph Explorer
+# Using CodeGraph
 
 在已建立 CodeGraph 索引的仓库里，优先用 CodeGraph 理解和定位代码。它能一次返回相关源码、符号和调用路径，包括纯文本搜索容易漏掉的关系。
 
