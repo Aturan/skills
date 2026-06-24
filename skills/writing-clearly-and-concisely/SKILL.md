@@ -1,5 +1,5 @@
 ---
-name: clear-writing
+name: writing-clearly-and-concisely
 description: 用于用户明确要求润色、压缩、改写文字，或发布前打磨 commit、PR、文档、报告、UI 文案、错误信息等面向人的重要正文。
 ---
 
