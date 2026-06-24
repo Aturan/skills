@@ -1,6 +1,6 @@
 ---
 name: using-repository-skills
-description: Use when starting work in a repository that provides skills, to decide whether repository skills apply before responding or acting
+description: Use at the start of work in a repository that may provide repository-local skills. Before answering, exploring, planning, editing, or running tools, select, load, and follow applicable repository skills; skip only for delegated subagents executing a specific task.
 ---
 
 <SUBAGENT-STOP>
@@ -9,58 +9,44 @@ If you were dispatched as a subagent to execute a specific task, skip this skill
 
 # Using Repository Skills
 
-Repository skills define reusable ways of working in this repository. Before responding, asking clarifying questions, exploring files, or acting on a task, check whether a repository skill applies.
+Repository skills are part of task setup. They define how this repository expects work to be done, so check them before ordinary reasoning or file exploration.
 
-## Instruction Priority
+## Workflow
+
+1. Check whether this run is exempt.
+   Completion criterion: if you are a delegated subagent with a specific task, stop using this skill; otherwise continue.
+
+2. Find candidate repository skills.
+   Completion criterion: you have checked the skills already listed in context and any repository skill locations named by repo instructions, such as `skills/` or `.agents/skills/`, enough to know which candidates may apply.
+
+3. Select applicable skills before task work.
+   Completion criterion: every skill whose trigger matches the user's request, repository context, or planned work has been selected. Do this before answering, asking clarifying questions, searching files, planning, editing, or running task tools.
+
+4. Load selected skills completely.
+   Completion criterion: each selected `SKILL.md` has been read fully, including any required references named by that skill for the current branch.
+
+5. Apply skills in order.
+   Completion criterion: process skills guide the approach first; domain, implementation, or reference skills guide the specific work next. If two skills conflict, follow the more specific applicable skill unless user or repository instructions override it.
+
+6. Continue when a skill does not fit.
+   Completion criterion: if a requested or selected skill turns out not to apply, state that briefly and proceed with the remaining applicable instructions.
+
+## Priority
 
 When instructions conflict, follow this order:
 
-1. **User and repository instructions**
-2. **Loaded repository skills**
-3. **Default agent behavior**
+1. User and repository instructions.
+2. Loaded repository skills.
+3. Default agent behavior.
 
-Repository skills guide how to work in this repository, but they do not override explicit user or repository instructions.
-
-## Core Rule
-
-If a repository skill applies to the current task, load and follow it before responding or acting. If a requested or loaded skill turns out not to fit the task, state that briefly and continue with the applicable instructions.
-
-Check for skills before:
-
-- Answering a question
-- Asking clarifying questions
-- Reading or searching files
-- Planning work
-- Editing files
-- Running tools
-
-## Selection Order
-
-When multiple skills may apply:
-
-1. Use process skills first; they define how to approach the task.
-2. Use domain or implementation skills next; they guide the specific work.
-3. If skills conflict, follow the more specific applicable skill unless user or repository instructions say otherwise.
+Repository skills guide how to work in the repository. They do not override explicit user instructions or higher-priority repository instructions.
 
 ## Red Flags
 
-These thoughts mean stop and check repository skills first:
+Stop and run the workflow above if you catch yourself thinking:
 
-| Thought | Reality |
-| --- | --- |
-| "This is just a simple question." | Questions are tasks. Check for skills. |
-| "I need more context first." | Skills may define how to gather context. |
-| "I'll read files quickly first." | Skills may define what to read and in what order. |
-| "I remember the rule." | Skills can change. Load the current version. |
-| "This skill is probably overkill." | If it applies, use it. |
-| "I'll do this one thing first." | Check before acting. |
-
-## Skill Types
-
-- **Rigid skills** define mandatory workflows. Follow them exactly unless user or repository instructions override them.
-- **Flexible skills** define patterns or judgment aids. Apply their principles to the current task.
-- **Reference skills** provide lookup material. Use only the relevant parts.
-
-## User Instructions
-
-User instructions say what outcome is needed. Repository skills guide how to work toward that outcome. If a user explicitly asks not to use a skill or provides a conflicting repository-level instruction, follow the user or repository instruction.
+- "This is just a simple question."
+- "I need to inspect files before choosing a skill."
+- "I remember the rule."
+- "This skill is probably overkill."
+- "I'll do one quick thing first."

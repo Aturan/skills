@@ -1,9 +1,9 @@
 ---
-name: using-codegraph
+name: codegraph-explorer
 description: CodeGraph-first code exploration. Use when working in a repository that may be indexed by CodeGraph and you need to understand, locate, trace, or read code before using grep/find/rg or opening files. Check for a .codegraph directory at the repository root, use the codegraph_explore MCP tool when available or the codegraph explore shell command, and skip CodeGraph when no .codegraph directory exists.
 ---
 
-# Using CodeGraph
+# CodeGraph Explorer
 
 Use CodeGraph as the first code lookup path in indexed repositories. It returns relevant source, symbols, and call paths in one query, including relationships that text search can miss.
 

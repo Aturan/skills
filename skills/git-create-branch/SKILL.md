@@ -1,5 +1,5 @@
 ---
-name: git-branch-creator
+name: git-create-branch
 description: Use when creating a git branch for a new feature or bugfix — including from backlog items, specs, or user instruction. Handles branch naming (feature/bugfix prefixes per GitLab workflow) and precondition checks (must be on the base branch, clean working tree). Supports main, master, or user-specified base branch.
 ---
 
@@ -44,13 +44,16 @@ Before anything else, determine the base branch:
 1. **User explicitly specifies a base branch**: Use it. Example: "create a feature branch from `master`" → base branch is `master`.
 2. **Check git remote HEAD**: Run `git remote show origin 2>/dev/null | grep 'HEAD branch' | awk '{print $NF}'`. If it returns `main`, `master`, or another branch name, use that.
 3. **Fall back to local branches**: If step 2 fails (no remote), check which of `main` or `master` exists locally:
+
    ```bash
    git branch --list main --list master
    ```
+
    - If only `main` exists → base branch is `main`
    - If only `master` exists → base branch is `master`
    - If both exist, prefer `main`
    - If neither exists, ask the user which branch to use as base.
+
 4. **Always confirm with the user**: "Base branch: `<name>`. Create branch from here?"
 
 ## Precondition Checks (REQUIRED — do not skip)
@@ -104,12 +107,13 @@ If there are new commits on `origin/<base-branch>`, warn the user before branchi
 <type>/<short-description>
 ```
 
-| Type | Use When | Example |
-|------|----------|---------|
-| `feature/` | New capability, enhancement, backlog item | `feature/oauth-login`, `feature/api-rate-limiting` |
-| `bugfix/` | Bug fix, defect correction | `bugfix/login-timeout`, `bugfix/null-pointer-payment` |
+| Type       | Use When                                  | Example                                               |
+| ---------- | ----------------------------------------- | ----------------------------------------------------- |
+| `feature/` | New capability, enhancement, backlog item | `feature/oauth-login`, `feature/api-rate-limiting`    |
+| `bugfix/`  | Bug fix, defect correction                | `bugfix/login-timeout`, `bugfix/null-pointer-payment` |
 
 **Rules for the description part:**
+
 - Use lowercase letters, numbers, and hyphens only
 - Keep it short and descriptive (3-5 words max)
 - Use hyphens as word separators (no underscores, no camelCase)
@@ -118,12 +122,12 @@ If there are new commits on `origin/<base-branch>`, warn the user before branchi
 
 ### Examples
 
-| Input | Branch Name |
-|-------|------------|
+| Input                            | Branch Name                         |
+| -------------------------------- | ----------------------------------- |
 | "user authentication with OAuth" | `feature/user-authentication-oauth` |
-| "fix the login timeout bug" | `bugfix/login-timeout` |
-| "API rate limiting middleware" | `feature/api-rate-limiting` |
-| "payment integration" | `feature/payment-integration` |
+| "fix the login timeout bug"      | `bugfix/login-timeout`              |
+| "API rate limiting middleware"   | `feature/api-rate-limiting`         |
+| "payment integration"            | `feature/payment-integration`       |
 
 ## Quick Reference
 
@@ -147,14 +151,14 @@ git branch --show-current
 
 ## Common Mistakes
 
-| Mistake | Why It's Wrong | Correct |
-|---------|---------------|---------|
-| Branching from a feature branch | Creates dependency chain, harder to review/rebase | Always branch from the base branch |
-| Using `fix/` prefix | Not aligned with GitLab workflow (`bugfix/`) | Use `bugfix/` |
-| Using underscores in name | Breaks convention, inconsistent | Use hyphens: `feature/oauth-login` |
-| Skipping `git status` check | Stashes or WIP get mixed into new branch | Always check working tree is clean |
-| Creating branch from `experiment/*` | Experiment branches are not stable bases | Stop and instruct user to switch to base branch |
-| Assuming base branch is `main` | Some repos use `master` or a custom default | Always detect the base branch first |
+| Mistake                             | Why It's Wrong                                    | Correct                                         |
+| ----------------------------------- | ------------------------------------------------- | ----------------------------------------------- |
+| Branching from a feature branch     | Creates dependency chain, harder to review/rebase | Always branch from the base branch              |
+| Using `fix/` prefix                 | Not aligned with GitLab workflow (`bugfix/`)      | Use `bugfix/`                                   |
+| Using underscores in name           | Breaks convention, inconsistent                   | Use hyphens: `feature/oauth-login`              |
+| Skipping `git status` check         | Stashes or WIP get mixed into new branch          | Always check working tree is clean              |
+| Creating branch from `experiment/*` | Experiment branches are not stable bases          | Stop and instruct user to switch to base branch |
+| Assuming base branch is `main`      | Some repos use `master` or a custom default       | Always detect the base branch first             |
 
 ## Red Flags — STOP and Re-check
 
@@ -171,13 +175,13 @@ git branch --show-current
 
 ## Rationalization Table
 
-| Excuse | Reality |
-|--------|---------|
-| "I'm already on a feature branch, I'll just branch from here" | Creates dependency chains. Branch from the base branch. |
-| "The user is in a hurry, I'll skip the checks" | Pressure is when mistakes happen. Checks take 2 seconds. |
-| "This repo might use a different convention" | Unless a CLAUDE.md or CONTRIBUTING.md overrides it, use GitLab convention. |
-| "Branching from current branch is faster" | Faster now, painful later during rebase/review. Always use the base branch. |
-| "It's just a small change, naming doesn't matter" | Consistent naming helps the whole team find branches. |
-| "Untracked files don't count as dirty" | `git status --porcelain` shows `??` — any output means STOP. |
-| "I'll just use `fix/` instead of `bugfix/` — it's shorter" | GitLab uses `bugfix/`. Consistency > brevity. |
-| "The base branch is probably main" | Always detect and confirm. Never assume. |
+| Excuse                                                        | Reality                                                                     |
+| ------------------------------------------------------------- | --------------------------------------------------------------------------- |
+| "I'm already on a feature branch, I'll just branch from here" | Creates dependency chains. Branch from the base branch.                     |
+| "The user is in a hurry, I'll skip the checks"                | Pressure is when mistakes happen. Checks take 2 seconds.                    |
+| "This repo might use a different convention"                  | Unless a CLAUDE.md or CONTRIBUTING.md overrides it, use GitLab convention.  |
+| "Branching from current branch is faster"                     | Faster now, painful later during rebase/review. Always use the base branch. |
+| "It's just a small change, naming doesn't matter"             | Consistent naming helps the whole team find branches.                       |
+| "Untracked files don't count as dirty"                        | `git status --porcelain` shows `??` — any output means STOP.                |
+| "I'll just use `fix/` instead of `bugfix/` — it's shorter"    | GitLab uses `bugfix/`. Consistency > brevity.                               |
+| "The base branch is probably main"                            | Always detect and confirm. Never assume.                                    |
