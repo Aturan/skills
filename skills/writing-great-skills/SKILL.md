@@ -94,7 +94,7 @@ Using this skill means producing English and Chinese versions by default:
 - Keep the two files behaviorally identical: same invocation rules, steps, completion criteria, branch conditions, exceptions, filenames, and internal references.
 - Do not make the Chinese version a summary, commentary, or looser explanation.
 - When changing either file, update the other in the same change.
-- If the repository or available skills include `writing-chinese-document`, invoke it when polishing the Chinese file. Treat it as an optional Chinese expression pass, not as a required dependency for running this skill.
+- If the repository or available skills include `writing-clearly-and-concisely`, invoke it when polishing the English and Chinese files. It routes each language to the right writing rules; treat it as an optional polish pass, not as a required dependency for running this skill.
 
 ## Pruning
 
@@ -121,6 +121,6 @@ Use leading words to collapse repeated explanation into one stable hook. A leadi
 - Required reference is inline or inside the skill directory.
 - Branch-only reference does not bury the main path.
 - English and Chinese files both exist and are behaviorally identical, unless the Chinese-only exception is explicit.
-- `writing-chinese-document` was used for the Chinese file when that skill exists.
+- `writing-clearly-and-concisely` was used for English and Chinese polish when that skill exists.
 - No external skill is required to execute the skill.
 - Duplicate, stale, and no-op sentences have been deleted.
