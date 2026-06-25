@@ -1,6 +1,6 @@
 ---
 name: readme-maintainer
-description: Maintain README documentation with the Facade-Index method. Use when the user asks to create, update, review, prune, or sync README files, or when public behavior, setup, APIs, CLI commands, configuration, repository structure, or living specs have changed and README documentation may need to follow.
+description: Maintain a target `README.md` with the Facade-Index method. Use when the user asks to create, update, review, prune, or sync a README, or when public behavior, setup, APIs, CLI commands, configuration, repository structure, or living specs have changed and the target `README.md` may need to follow.
 ---
 
 # Writing READMEs
@@ -9,8 +9,8 @@ A README is a facade and an index. It should help a reader understand what the p
 
 ## Workflow
 
-1. Identify the affected README and source material.
-   Completion criterion: you know which `README.md` files may need edits and which contracts, specs, code, scripts, or workflows are authoritative.
+1. Identify the target `README.md` and source material.
+   Completion criterion: you know which single `README.md` may need edits and which contracts, specs, code, scripts, or workflows are authoritative.
 
 2. Gate the edit on public relevance.
    Completion criterion: if the change only affects private implementation and does not change user-visible behavior, setup, APIs, configuration, commands, file layout, or spec links, leave the README unchanged and report that decision.
@@ -46,6 +46,6 @@ A README is a facade and an index. It should help a reader understand what the p
 
 After README maintenance, report briefly:
 
-- Which README files changed or why none changed.
+- Which `README.md` changed or why none changed.
 - Whether the one-liner, structure tree, contract examples, and spec index were changed or left as-is.
 - Any source material that was missing or uncertain.
