@@ -18,7 +18,8 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 - 编写或修改 `skills/` 下的 skill 时，必须使用 `writing-great-skills` skill。它是 skill 写作、文档 TDD、中英文同步和裁剪规则的单一来源。
 - 编写或修改中英文文档时，如果存在 `writing-clearly-and-concisely` skill，必须调用它按语言检查英文和中文表达；中文还要检查排版。
 - skill 文档应提供中英文对照版本：英文为 `SKILL.md`，供 agent 使用；中文为 `SKILL-zh.md`，供人类阅读。修改其中一份时，必须同步修改另一份。
-- 例外：文档本身针对中文场景时，直接使用中文编写，不需要额外提供英文对照。
+  - 例外：文档本身针对中文场景时，直接使用中文编写，不需要额外提供英文对照。
+- 不需要保留 `agents/openai.yaml`。
 
 ## Skill 编写流程
 
