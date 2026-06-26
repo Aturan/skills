@@ -1,6 +1,6 @@
 ---
 name: writing-great-skills
-description: Reference and workflow for writing, editing, and bilingual-maintaining agent skills predictably; includes document TDD, skill structure, pruning, and Chinese/English sync.
+description: Use when creating or editing agent skills, including drafting SKILL.md, syncing SKILL-zh.md, changing frontmatter, triggers, workflows, references, or pruning an existing skill.
 disable-model-invocation: true
 ---
 
@@ -22,7 +22,7 @@ Use this skill when creating or editing a skill. The output is a single skill pa
    Completion criterion: the agent can run the skill from this file alone; every step has a checkable completion criterion; required reference is inline or stored inside this skill directory.
 
 4. Draft the Chinese counterpart.
-   Completion criterion: `SKILL-zh.md` exists unless the skill itself is for a Chinese-only scenario; it matches the English file's triggers, steps, exceptions, filenames, and references; it is not a loose summary.
+   Completion criterion: `SKILL-zh.md` exists unless the skill itself is for a Chinese-only scenario; it has frontmatter with the same `name` and invocation fields, and its `description` is Chinese trigger language equivalent to the English description; it matches the English file's triggers, steps, exceptions, filenames, and references; it is not a loose summary.
 
 5. Turn the checklist green.
    Completion criterion: every red item passes against the written files, including bilingual parity unless the Chinese-only exception applies.
@@ -92,6 +92,7 @@ Using this skill means producing English and Chinese versions by default:
 - Write the Chinese file for human reading and maintenance.
 - The only exception is a skill whose subject and use are explicitly Chinese-only; in that case, write it directly in Chinese and record the exception in the work summary.
 - Keep the two files behaviorally identical: same invocation rules, steps, completion criteria, branch conditions, exceptions, filenames, and internal references.
+- Give the Chinese file its own frontmatter. Keep `name` and invocation-control fields such as `disable-model-invocation` aligned with the English file. Write `description` as Chinese trigger language that is behaviorally equivalent to the English description; do not copy the English text or replace triggers with a loose summary.
 - Do not make the Chinese version a summary, commentary, or looser explanation.
 - When changing either file, update the other in the same change.
 - If the repository or available skills include `writing-clearly-and-concisely`, invoke it when polishing the English and Chinese files. It routes each language to the right writing rules; treat it as an optional polish pass, not as a required dependency for running this skill.
@@ -120,7 +121,7 @@ Use leading words to collapse repeated explanation into one stable hook. A leadi
 - Every step has a checkable completion criterion.
 - Required reference is inline or inside the skill directory.
 - Branch-only reference does not bury the main path.
-- English and Chinese files both exist and are behaviorally identical, unless the Chinese-only exception is explicit.
+- English and Chinese files both exist, both have frontmatter, and are behaviorally identical, unless the Chinese-only exception is explicit.
 - `writing-clearly-and-concisely` was used for English and Chinese polish when that skill exists.
 - No external skill is required to execute the skill.
 - Duplicate, stale, and no-op sentences have been deleted.

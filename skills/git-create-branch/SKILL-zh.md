@@ -1,3 +1,8 @@
+---
+name: git-create-branch
+description: 用户要求根据指令、Backlog 条目或 specs 为新 feature 或 bugfix 创建 git branch 时使用；需要先确认基础分支，并在创建前检查当前分支和工作区。
+---
+
 # Git Create Branch
 
 从已确认的基础分支创建实现分支。不要从另一个实现分支、实验分支、临时分支或 work-in-progress 分支继续开新分支。

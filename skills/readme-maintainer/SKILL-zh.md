@@ -1,3 +1,8 @@
+---
+name: readme-maintainer
+description: 用户要求创建、更新、review、裁剪或同步 README.md，或公开行为、setup、API、CLI 命令、配置、仓库结构、模块边界、living specs 改变而 README 可能需要跟进时使用。
+---
+
 # README Maintainer
 
 README 是门面和索引。它应该帮助读者理解项目或模块做什么、如何安全开始、权威细节在哪里。它不应该成为实现细节、长篇业务规则或算法说明的事实来源。

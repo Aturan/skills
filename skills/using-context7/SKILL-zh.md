@@ -1,3 +1,8 @@
+---
+name: using-context7
+description: 开发者问题涉及 library、framework、SDK、API、CLI tool 或 cloud service，且可能需要当前文档判断 API、配置、迁移、setup、debug 或 CLI 用法时使用；先查本地权威来源，再决定是否路由到 find-docs。
+---
+
 # Using Context7
 
 使用本 skill 作为文档查询 gate。先用本地权威来源完成初步理解；当答案依赖当前外部文档时，再调用 `$find-docs`。Context7 的 library resolution、docs fetching、命令次数、version-specific ID、quota、敏感信息处理，以及 sandbox 或网络重试规则，都以 `$find-docs` 的 `SKILL.md` 为准。

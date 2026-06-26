@@ -1,3 +1,8 @@
+---
+name: using-repository-skills
+description: 在可能提供仓库本地 skills 的仓库中开始回答、探索、规划、编辑或运行工具前使用；需要先选择、加载并遵守适用的 repository skills。
+---
+
 # Using Repository Skills
 
 Repository skills 是任务准备的一部分。它们定义这个仓库期望的工作方式，所以在常规推理或文件探索前，先检查它们。

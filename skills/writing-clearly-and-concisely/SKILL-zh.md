@@ -1,3 +1,8 @@
+---
+name: writing-clearly-and-concisely
+description: 写作或润色面向人阅读的英文或中文正文时使用，包括文档、commit messages、error messages、解释、reports、UI text 或双语 skill docs；按语言选择英文或中文写作规则。
+---
+
 # 清晰简洁地写作
 
 ## 概览
