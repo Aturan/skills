@@ -1,45 +1,45 @@
 ---
 name: readme-maintainer
-description: Maintain a repository or local `README.md` with the Facade-Index method. Use when the user asks to create, update, review, prune, or sync a README, or when public behavior, setup, APIs, CLI commands, configuration, repository structure, module boundaries, or living specs have changed and a README may need to follow.
+description: Maintain the root `README.md` or `docs/README.md` with the Facade-Index method. Use when the user asks to create, update, review, prune, or sync these README entry points, or when public behavior, setup, APIs, CLI commands, configuration, repository structure, cross-module contracts, documentation inventory, or documentation navigation has changed and a README entry point may need to follow.
 ---
 
 # Writing READMEs
 
-A README is a facade and an index. It should help a reader understand what the project or module does, how to start safely, and where the canonical details live. It should not become the source of truth for implementation details, long business rules, or algorithm explanations.
+A README is a facade and an index. It should help a reader understand what the project does, how to start safely, and where the canonical details live. It should not become the source of truth for implementation details, long business rules, or algorithm explanations.
 
-## README Levels
+## README Scope
 
 - **Repository README**: the root entry point for the repository. It owns discovery, safe first start, global setup, global commands, repository conventions, top-level structure, cross-module contracts, cross-module navigation, and repository-wide risky commands.
-- **Local README**: the entry point for a module, package, feature, or subdirectory. It owns the local purpose and non-goals, local public contract, local commands, local configuration, upstream and downstream boundaries, and links to local specs, examples, fixtures, or design notes.
+- **Documentation README**: `docs/README.md` is the entry point for long-lived documentation. It owns the docs inventory, documentation navigation, and links to ADRs, PRDs, design docs, specs, and agent collaboration notes.
 
-Layer rule: keep detailed facts at the closest authoritative source and the level where the reader needs them. If both repository and local READMEs need the same fact, one level gets the detail and the other gets a one-sentence summary plus a link.
+The repository treats the root `README.md` and `docs/README.md` as the only README surfaces. Put durable design context in `docs/`, ADRs, or PRDs; put implementation-adjacent constraints in code interfaces, types, tests, or necessary comments; put repeatable workflows in skills or scripts. The root README may summarize these facts and link to their canonical source.
 
 ## Workflow
 
 1. Identify the target `README.md` and source material.
-   Completion criterion: you know which single `README.md` may need edits, whether it is a repository README or local README, and which contracts, specs, code, scripts, or workflows are authoritative.
+   Completion criterion: you know whether the root `README.md`, `docs/README.md`, both, or neither may need edits and which contracts, specs, code, scripts, docs, or workflows are authoritative.
 
-2. Apply the README level.
-   Completion criterion: repository READMEs cover repository discovery, global startup, global conventions, cross-module contracts, and navigation; local READMEs cover local responsibilities, public contract, local operation, boundaries, and local canonical references.
+2. Apply the README scope.
+   Completion criterion: the root README covers repository discovery, global startup, global conventions, cross-module contracts, top-level layout, documentation navigation, and repository-wide risky commands; `docs/README.md` covers only the documentation inventory and documentation navigation.
 
 3. Gate the edit on public relevance.
-   Completion criterion: leave the README unchanged and report that decision when the change only affects private implementation. For a repository README, update only when the repository entry point, global workflow, cross-module behavior, top-level layout, or navigation changes. For a local README, update only when that directory's public contract, usage, boundaries, commands, configuration, or local references change.
+   Completion criterion: leave README files unchanged and report that decision when the change only affects private implementation. Update the root README only when the repository entry point, global workflow, cross-module behavior, top-level layout, documentation navigation, setup, commands, or repository-wide risks change. Update `docs/README.md` only when the docs inventory, docs navigation, or canonical documentation locations change.
 
 4. Check the opening one-liner.
    Completion criterion: the first description states `[subject] + [core action] + [reader problem solved]` without leading with stack choices or implementation trivia.
 
 5. Prune structure trees when layout documentation is needed.
-   Completion criterion: any tree is an ASCII cognitive map, omits noise such as `node_modules/`, caches, generated files, and routine tests, and gives each included entry one clear responsibility comment. Repository trees show only top-level navigation; local trees show only entries needed to use or modify that directory.
+   Completion criterion: any tree is an ASCII cognitive map, omits noise such as `node_modules/`, caches, generated files, and routine tests, and gives each included entry one clear responsibility comment. Trees show only top-level navigation.
 
    ```text
    src/middleware/  # verifies JWTs before protected routes run
    ```
 
 6. Sync public contracts.
-   Completion criterion: examples document only public API, CLI, setup, configuration, inputs, outputs, errors, and observable side effects. Repository examples cover cross-module or whole-repository behavior; local examples cover that directory's contract. Include a minimal success path and a minimal failure path when the contract has meaningful failure behavior.
+   Completion criterion: examples document only public API, CLI, setup, configuration, inputs, outputs, errors, and observable side effects. Examples cover cross-module or whole-repository behavior. Include a minimal success path and a minimal failure path when the contract has meaningful failure behavior.
 
 7. Index canonical detail.
-   Completion criterion: long rules, option tables, algorithms, and deep implementation notes are replaced or summarized by links to living specs, API references, design docs, workflow docs, or lower-level READMEs. Do not add backlinks to upstream docs such as higher-level READMEs, `AGENTS.md`, or `CLAUDE.md` unless the current README needs them for navigation.
+   Completion criterion: long rules, option tables, algorithms, and deep implementation notes are replaced or summarized by links to living specs, API references, design docs, workflow docs, scripts, or skills. Do not add backlinks to `AGENTS.md` or `CLAUDE.md` unless the current README needs them for navigation.
 
 8. Patch conservatively.
    Completion criterion: preserve the author's structure and tone where possible, edit only the affected sections, and keep Markdown fences, language tags, commands, paths, and links correct.
@@ -49,16 +49,16 @@ Layer rule: keep detailed facts at the closest authoritative source and the leve
 - Do not update a README for an internal refactor with no public effect.
 - Do not copy large spec content into a README; link to the canonical document instead.
 - Do not generate full directory dumps. Show only entries that help the reader navigate.
-- Do not duplicate detailed local usage in a repository README; summarize it and link to the local README.
-- Do not duplicate repository setup, contribution rules, or global background in a local README unless the local workflow cannot be performed without it.
+- Do not create module-level `README.md` files to explain module behavior.
+- Do not duplicate detailed module usage in README entry points; summarize it and link to `docs/`, code-level contracts, scripts, or skills.
 - Mark risky or surprising commands with their side effects, such as installing system packages, deleting data, opening network access, or changing external state.
-- Prefer local conventions already present in the README over a new template.
+- Prefer existing conventions already present in the README over a new template.
 
 ## Report
 
 After README maintenance, report briefly:
 
-- Which `README.md` changed, which level it was, or why none changed.
+- Which README entry point changed, or why both stayed unchanged.
 - Whether the one-liner, structure tree, contract examples, and spec index were changed or left as-is.
 - Whether any duplicated fact was moved, summarized, or linked.
 - Any source material that was missing or uncertain.
