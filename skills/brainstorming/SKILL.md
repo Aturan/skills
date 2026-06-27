@@ -1,6 +1,6 @@
 ---
 name: brainstorming
-description: Use when the user explicitly asks to brainstorm, discuss requirements, clarify needs, or shape an idea into requirements, and no more specific skill is explicitly requested.
+description: Use only when the user explicitly asks for a requirements brainstorming or clarification session, such as turning an idea into requirements, and no more specific skill or direct implementation, review, debugging, planning, or spec request is present.
 ---
 
 # 需求头脑风暴
@@ -11,16 +11,30 @@ description: Use when the user explicitly asks to brainstorm, discuss requiremen
 用户确认需求前，不要调用实现类 skill、写代码、创建 spec、创建 plan、拆任务或做实现动作。需求确认后也不要自动进入下一阶段，只等待用户决定。
 </HARD-GATE>
 
-## 反模式：“这个太简单，不需要讨论需求”
+## 适用范围
 
-每个需要被落实的想法都至少要确认目标、范围和验收边界。简单需求可以用很短的正文，但不能跳过确认；越小的改动越容易因为默认假设不同而做偏。
+只在用户明确要进入需求澄清或需求头脑风暴时使用，例如：
+
+- 「帮我头脑风暴这个需求」
+- 「先别实现，帮我把想法整理成需求」
+- 「我们讨论一下需求边界」
+- 「帮我澄清需求再写」
+
+不要在以下场景使用：
+
+- 用户已经要求实现、修改代码、写测试、review、debug、修 CI、提交或发 PR。
+- 用户要求的是 spec、plan、设计文档或任务拆分，而不是需求澄清。
+- 用户只是在实现过程中回答一个局部问题或补充约束。
+- 另一个更具体的 skill 已经匹配当前请求。
+
+进入本 skill 后，即使需求看起来很小，也要确认目标、范围和验收边界。简单需求可以用很短的正文，但不能跳过确认。
 
 ## 检查清单
 
 按顺序完成：
 
 1. **探索必要上下文**：只读取与需求判断有关的文件、文档或事实来源。
-2. **确认需求入口**：确认用户是在头脑风暴、讨论需求、澄清需求，且没有显式调用更具体的 skill。
+2. **确认需求入口**：确认用户明确要求需求头脑风暴或需求澄清会话，且没有直接要求实现、review、debug、plan、spec 或显式调用更具体的 skill。
 3. **澄清目标与边界**：一次问一个问题，优先多选，围绕目标、用户、范围、非范围、约束和成功标准。
 4. **整理已确认/假设/待决**：不要把假设混进已确认需求。
 5. **处理方案输入**：用户给出命令名、技术方案、文件格式或实现路径时，先转写成需求候选；只有用户明确指定不可变时才记为约束。
