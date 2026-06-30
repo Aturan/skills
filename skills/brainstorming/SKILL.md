@@ -77,56 +77,9 @@ Follow these steps in order:
 4. **Pass the discussion checkpoint**: Confirm the user has answered at least one clarifying question in this brainstorming session, or explicitly asked to skip discussion and create the report from the provided material. Completion criterion: cached report writing is allowed by the checkpoint.
 5. **Separate fact layers**: Keep confirmed facts, evidence, assumptions, and open questions separate. Completion criterion: no inference is written as a confirmed fact.
 6. **Organize candidate directions**: Rewrite command names, technical paths, file formats, or process suggestions from the user as candidate directions; record them as constraints only when the user explicitly makes them non-negotiable. Completion criterion: solution input is not disguised as a confirmed conclusion.
-7. **Write the cached report**: Write the report from the template after the discussion checkpoint passes; use the system cache directory first, or a local cache directory inside the repository when needed. Completion criterion: the file exists and covers the goal, background, evidence, candidate directions, assumptions, and open questions.
-8. **Self-review the report**: Check that the report is clear, traceable, and transparent about open questions. Completion criterion: issues found during review are fixed or explicitly kept as open questions.
+7. **Write the cached report**: After the discussion checkpoint passes, read `references/report-artifacts.md` and write the report from its template; use the system cache directory first, or a local cache directory inside the repository when needed. Completion criterion: the file exists and covers the goal, background, evidence, candidate directions, assumptions, and open questions.
+8. **Self-review the report**: Use `references/report-artifacts.md` to check that the report is clear, traceable, and transparent about open questions. Completion criterion: issues found during review are fixed or explicitly kept as open questions.
 9. **Ask for user confirmation**: Show the report path and body summary, then ask the user to confirm, revise, or continue clarifying. Completion criterion: the user explicitly confirms or provides the next clarification input.
-
-## Report Template
-
-Write the report body with Chinese section headings by default. Use this structure unless the user explicitly asks for another language:
-
-```markdown
-# <主题>
-
-## 背景
-
-## 用户目标
-
-## 已确认事实
-
-## 依据与参考
-
-## 候选方向
-
-## 范围候选
-
-## 非范围候选
-
-## 假设与待决
-```
-
-## Writing Rules
-
-- `背景` explains where the idea came from and why it is being discussed now.
-- `用户目标` explains the outcome and value the user wants.
-- `已确认事实` includes only user-confirmed facts, explicit project documentation, or facts directly supported by a source.
-- `依据与参考` records only sources that affect boundaries, constraints, or judgments; prefer official external documentation and state which judgment each source supports.
-- `候选方向` records possible paths without turning them into conclusions.
-- `范围候选` and `非范围候选` explain what may be included or excluded.
-- `假设与待决` records premises that are not yet confirmed and real unresolved questions. Questions that block report confirmation must be clarified.
-
-## Self-Review Checklist
-
-Check each item before asking the user to confirm:
-
-| Check | Standard |
-| --- | --- |
-| Clear goal | It is clear what the user wants to solve and what result they want |
-| Fact layering | Confirmed facts, evidence, assumptions, and open questions are not mixed |
-| Traceable sources | Key judgments trace back to user input, project docs, or external docs |
-| Transparent candidates | Candidate directions are not written as fixed conclusions |
-| Discussable boundary | Scope and out-of-scope candidates are enough for the user to choose |
-| Transparent open questions | Unconfirmed facts are visible and not hidden |
 
 ## Visual Companion
 
