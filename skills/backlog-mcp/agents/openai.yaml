@@ -1,4 +1,0 @@
-interface:
-  display_name: "Backlog MCP"
-  short_description: "Manage Backlog.md tasks through MCP tools."
-  default_prompt: "Use Backlog MCP to track this request."
