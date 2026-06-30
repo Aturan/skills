@@ -1,182 +1,133 @@
 ---
 name: brainstorming
-description: Use only when the user explicitly asks for a requirements brainstorming or clarification session, such as turning an idea into requirements, and no more specific skill or direct implementation, review, debugging, planning, or spec request is present.
+description: Use when the user explicitly asks to brainstorm, explore an idea, clarify a fuzzy request, or turn an initial thought into a confirmed brainstorming report.
 ---
 
-# 需求头脑风暴
+# Brainstorming
 
-把模糊想法转成用户确认过的需求正文。这个 skill 的终点是需求草稿被确认，不是 spec、plan、设计文档、任务拆分或实现。
+Turn a fuzzy idea into a user-confirmed brainstorming report. The report records the goal, context, evidence, candidate directions, assumptions, and open questions. It is not a commitment to later work and does not move the user into another stage.
 
 <HARD-GATE>
-用户确认需求前，不要调用实现类 skill、写代码、创建 spec、创建 plan、拆任务或做实现动作。需求确认后也不要自动进入下一阶段，只等待用户决定。
+Do not invoke any other skill before the user confirms the brainstorming report.
 </HARD-GATE>
 
-## 适用范围
+## Anti-Pattern: "This Is Too Simple To Brainstorm"
 
-只在用户明确要进入需求澄清或需求头脑风暴时使用，例如：
+Every idea that may move forward needs at least a confirmed goal, boundary, and basis for judgment. A simple idea can have a short report, but it still needs confirmation; small items are easy to skew through mismatched default assumptions.
 
-- 「帮我头脑风暴这个需求」
-- 「先别实现，帮我把想法整理成需求」
-- 「我们讨论一下需求边界」
-- 「帮我澄清需求再写」
-
-不要在以下场景使用：
-
-- 用户已经要求实现、修改代码、写测试、review、debug、修 CI、提交或发 PR。
-- 用户要求的是 spec、plan、设计文档或任务拆分，而不是需求澄清。
-- 用户只是在实现过程中回答一个局部问题或补充约束。
-- 另一个更具体的 skill 已经匹配当前请求。
-
-进入本 skill 后，即使需求看起来很小，也要确认目标、范围和验收边界。简单需求可以用很短的正文，但不能跳过确认。
-
-## 检查清单
-
-按顺序完成：
-
-1. **探索必要上下文**：只读取与需求判断有关的文件、文档或事实来源。
-2. **确认需求入口**：确认用户明确要求需求头脑风暴或需求澄清会话，且没有直接要求实现、review、debug、plan、spec 或显式调用更具体的 skill。
-3. **澄清目标与边界**：一次问一个问题，优先多选，围绕目标、用户、范围、非范围、约束和成功标准。
-4. **整理已确认/假设/待决**：不要把假设混进已确认需求。
-5. **处理方案输入**：用户给出命令名、技术方案、文件格式或实现路径时，先转写成需求候选；只有用户明确指定不可变时才记为约束。
-6. **按需使用视觉辅助**：只有当前问题需要看图判断时才询问是否启用 visual companion。
-7. **输出需求草稿**：覆盖目标、范围、功能需求、验收场景、成功标准和待决问题。
-8. **需求自审**：检查可测试、可衡量、无实现泄漏、待决透明。
-9. **Subagent review**：自审通过后，如果当前环境可用且授权边界允许，自动调用 subagent review 需求质量。
-10. **用户确认**：让用户确认、修改或继续澄清。
-
-## 流程图
+## Process Diagram
 
 ```dot
 digraph brainstorming {
-    "探索上下文" [shape=box];
-    "澄清一个问题" [shape=box];
-    "需要视觉比较？" [shape=diamond];
-    "询问是否启用视觉辅助" [shape=box];
-    "记录已确认、假设和待决" [shape=box];
-    "需求清楚了吗？" [shape=diamond];
-    "起草需求" [shape=box];
-    "需求自审" [shape=box];
-    "能使用 subagent review？" [shape=diamond];
-    "subagent review 需求" [shape=box];
-    "用户确认了吗？" [shape=diamond];
-    "需求已确认" [shape=doublecircle];
+    "Explore context" [shape=box];
+    "Clarify one question" [shape=box];
+    "Need visual comparison?" [shape=diamond];
+    "Ask whether to use visual companion" [shape=box];
+    "Record facts, evidence, assumptions, and open questions" [shape=box];
+    "Report clear enough?" [shape=diamond];
+    "Write cached report" [shape=box];
+    "Self-review report" [shape=box];
+    "User confirmed?" [shape=diamond];
+    "Report confirmed" [shape=doublecircle];
 
-    "探索上下文" -> "澄清一个问题";
-    "澄清一个问题" -> "需要视觉比较？";
-    "需要视觉比较？" -> "询问是否启用视觉辅助" [label="是"];
-    "需要视觉比较？" -> "记录已确认、假设和待决" [label="否"];
-    "询问是否启用视觉辅助" -> "记录已确认、假设和待决";
-    "记录已确认、假设和待决" -> "需求清楚了吗？";
-    "需求清楚了吗？" -> "澄清一个问题" [label="否"];
-    "需求清楚了吗？" -> "起草需求" [label="是"];
-    "起草需求" -> "需求自审";
-    "需求自审" -> "能使用 subagent review？";
-    "能使用 subagent review？" -> "subagent review 需求" [label="是"];
-    "能使用 subagent review？" -> "用户确认了吗？" [label="否"];
-    "subagent review 需求" -> "用户确认了吗？";
-    "用户确认了吗？" -> "澄清一个问题" [label="需要修改或仍有缺口"];
-    "用户确认了吗？" -> "需求已确认" [label="是"];
+    "Explore context" -> "Clarify one question";
+    "Clarify one question" -> "Need visual comparison?";
+    "Need visual comparison?" -> "Ask whether to use visual companion" [label="yes"];
+    "Need visual comparison?" -> "Record facts, evidence, assumptions, and open questions" [label="no"];
+    "Ask whether to use visual companion" -> "Record facts, evidence, assumptions, and open questions";
+    "Record facts, evidence, assumptions, and open questions" -> "Report clear enough?";
+    "Report clear enough?" -> "Clarify one question" [label="no"];
+    "Report clear enough?" -> "Write cached report" [label="yes"];
+    "Write cached report" -> "Self-review report";
+    "Self-review report" -> "User confirmed?";
+    "User confirmed?" -> "Clarify one question" [label="needs changes or still unclear"];
+    "User confirmed?" -> "Report confirmed" [label="yes"];
 }
 ```
 
-## 流程说明
+## Output Location
 
-**理解需求**
+Write the brainstorming report to the system cache directory first. If the current environment cannot determine or write to the system cache directory, write it to a local cache directory inside the repository.
 
-- 从问题和用户价值出发，而不是从解决方案出发。
-- 识别谁受影响、需要什么结果，以及什么算成功。
-- 如果请求包含多个独立需求，先指出这一点，并帮助用户选择第一个要澄清的需求。
-- 如果当前文件或事实会影响判断，只读取需求判断所需的最小上下文。
+Rules:
 
-**澄清需求**
+- Create the target directory if it does not exist.
+- Use the current repository directory name as `<repo-slug>`.
+- Use short lowercase English words, digits, and hyphens for `<topic-slug>`; if uncertain, use pinyin from the current topic keywords or a date.
+- Overwrite the same report file when updating the same brainstorming session.
+- In the delivery message, include the actual report path and a summary of the report body.
+- A cached report is not long-lived project fact; do not write it to `docs/`.
 
-- 每条消息只问一个问题。
-- 多选能帮助用户快速回答时，优先使用多选。
-- 有帮助时，显式维护三类信息：已确认、假设、待决问题。
-- 不要虚构会影响范围、契约、用户行为或验收的事实。
+## Workflow
 
-**处理用户提出的方案**
+Follow these steps in order:
 
-- 把用户给出的实现细节当成需要判断的输入，不要自动当成最终需求。
-- 把“用 YAML + git clone 做 projects prepare”转写成需求语言，例如“维护者需要一条可重复执行的项目工作副本准备入口”。
-- 如果用户明确说某个细节是必需的，把它记录到约束中。
+1. **Explore necessary context**: Read only the files, docs, or facts needed to judge the current idea. Completion criterion: you can explain which context supports which judgment.
+2. **Confirm the entry point**: Confirm the user is brainstorming, exploring an idea, or clarifying a fuzzy request. Completion criterion: you have not moved the conversation into another skill.
+3. **Clarify goal and boundary**: Ask one question at a time; prefer multiple choice when it lowers user effort. Completion criterion: the most important question for report quality has been answered or recorded as open.
+4. **Separate fact layers**: Keep confirmed facts, evidence, assumptions, and open questions separate. Completion criterion: no inference is written as a confirmed fact.
+5. **Organize candidate directions**: Rewrite command names, technical paths, file formats, or process suggestions from the user as candidate directions; record them as constraints only when the user explicitly makes them non-negotiable. Completion criterion: solution input is not disguised as a confirmed conclusion.
+6. **Write the cached report**: Write the report from the template to the system cache directory; if that cannot be determined or written, write it to a local cache directory inside the repository. Completion criterion: the file exists and covers the goal, background, evidence, candidate directions, assumptions, and open questions.
+7. **Self-review the report**: Check that the report is clear, traceable, and transparent about open questions. Completion criterion: issues found during review are fixed or explicitly kept as open questions.
+8. **Ask for user confirmation**: Show the report path and body summary, then ask the user to confirm, revise, or continue clarifying. Completion criterion: the user explicitly confirms or provides the next clarification input.
 
-## 需求草稿
+## Report Template
 
-默认使用以下结构。简单需求可以合并章节，但要保留对应含义：
+Write the report body with Chinese section headings by default. Use this structure unless the user explicitly asks for another language:
 
 ```markdown
-## 目标
+# <主题>
 
 ## 背景
 
-## 范围
+## 用户目标
 
-## 非范围
+## 已确认事实
 
-## 用户与场景
+## 依据与参考
 
-## 功能需求
+## 候选方向
 
-## 约束
+## 范围候选
 
-## 验收场景
+## 非范围候选
 
-## 成功标准
-
-## 假设与依赖
-
-## 待决问题
+## 假设与待决
 ```
 
-写法规则：
+## Writing Rules
 
-- `目标` 说明用户价值和期望结果。
-- `范围` 和 `非范围` 说明包含什么、不包含什么。
-- `功能需求` 描述可观察行为，不写架构、API、数据模型或任务。
-- `验收场景` 用 Given/When/Then 或等价清晰表述覆盖主流程、异常流程和边界流程。
-- `成功标准` 必须可衡量，并尽量与技术无关。
-- `待决问题` 只包含真实未决点；阻塞问题必须在确认前继续澄清。
+- `背景` explains where the idea came from and why it is being discussed now.
+- `用户目标` explains the outcome and value the user wants.
+- `已确认事实` includes only user-confirmed facts, explicit project documentation, or facts directly supported by a source.
+- `依据与参考` records only sources that affect boundaries, constraints, or judgments; prefer official external documentation and state which judgment each source supports.
+- `候选方向` records possible paths without turning them into conclusions.
+- `范围候选` and `非范围候选` explain what may be included or excluded.
+- `假设与待决` records premises that are not yet confirmed and real unresolved questions. Questions that block report confirmation must be clarified.
 
-## 需求自审
+## Self-Review Checklist
 
-请用户确认前，先检查：
+Check each item before asking the user to confirm:
 
-| 检查项 | 标准 |
+| Check | Standard |
 | --- | --- |
-| 用户价值 | 问题和期望结果清楚 |
-| 范围 | 包含和不包含的内容明确 |
-| 可测试性 | 关键需求有验收场景 |
-| 可衡量性 | 成功标准可观察 |
-| 无实现泄漏 | 没有把方案伪装成需求 |
-| 待决透明 | 未确认事实清晰可见 |
+| Clear goal | It is clear what the user wants to solve and what result they want |
+| Fact layering | Confirmed facts, evidence, assumptions, and open questions are not mixed |
+| Traceable sources | Key judgments trace back to user input, project docs, or external docs |
+| Transparent candidates | Candidate directions are not written as fixed conclusions |
+| Discussable boundary | Scope and out-of-scope candidates are enough for the user to choose |
+| Transparent open questions | Unconfirmed facts are visible and not hidden |
 
-展示草稿前，直接修正文档中的问题。
+## Visual Companion
 
-## Subagent Review
+Ask whether to use the visual companion only when visual work is clearly better than text for clarifying the current idea. Suitable cases include UI sketches, layout comparisons, navigation structures, state flows, information architecture, visual hierarchy, or interaction path choices.
 
-自审通过后，如果当前环境提供 subagent 且授权边界允许，自动调用 subagent review 需求正文，不把它作为用户选项。调用时使用 `reviewer-prompt.md` 里的需求 review 模板。
+After the user agrees, read `visual-companion.md` in this directory and follow its process. Visual feedback must be rewritten into the brainstorming report; sketches or click choices are not the final report.
 
-review 只检查需求质量：范围是否清楚、验收是否可测试、成功标准是否可衡量、是否混入实现方案、待决问题是否透明。不要让 subagent 写 spec、plan、任务或实现建议。
+## Core Principles
 
-如果 subagent 不可用或当前工具策略要求先取得用户授权，跳过自动 review，并在展示需求草稿时简短说明跳过原因。
-
-## 用户确认门禁
-
-自审和可用的 subagent review 完成后，展示需求草稿，并请用户确认、修改或继续澄清。用户确认后，只说明需求已确认，然后等待用户下一步指示。
-
-## 视觉辅助
-
-只有当某个需求问题用视觉方式比文字更清楚时，才使用 `visual-companion.md`。
-
-适用场景包括 UI mockup、布局比较、导航结构、状态流、信息架构、视觉层级或交互路径选择。普通范围、优先级、角色、概念或验收问题不使用它。
-
-只在需要时单独询问是否启用。用户同意后，先读取 `visual-companion.md`，再启动视觉辅助。视觉反馈必须转写回需求正文；mockup 或点击选项本身不是最终需求。
-
-## 核心原则
-
-- 一次只问一个问题。
-- 先确认需求，再讨论方案。
-- 已确认事实、假设和待决问题必须保持分离。
-- 视觉辅助用于澄清需求，不能替代需求文字。
-- 除非用户明确要求下一阶段，否则停在需求确认。
+- Ask one question at a time.
+- Form a confirmable brainstorming report first.
+- Do not invoke any other skill before the brainstorming report is confirmed.
+- Keep confirmed facts, evidence, assumptions, and open questions separate.
+- Use the cached report for current collaboration; it is not long-lived project fact.
