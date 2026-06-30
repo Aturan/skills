@@ -26,19 +26,22 @@ Persist MCP servers from the current context into the target agent's repository-
    - plugin-provided MCP server, which should be controlled through that agent's plugin config instead of copying a launch command into a generic MCP table.
 
 5. Preserve credentials.
-   Completion criterion: no secret value, bearer token, API key, cookie, password, or private credential from the context is written directly into the repo config. Use the target agent's environment-variable reference mechanism, such as `env_vars`, `bearer_token_env_var`, `env_http_headers`, `env`, or `${NAME}` placeholders.
+   Completion criterion: no secret value, bearer token, API key, cookie, password, or private credential from the context is written directly into a Git-tracked repo config. Prefer the target agent's environment-variable reference mechanism, such as `env_vars`, `bearer_token_env_var`, `env_http_headers`, `env`, or `${NAME}` placeholders. If the user asks to put a credential value in `.codex/config.toml`, first make or verify that file is ignored by Git, then it may be written as local-private config.
 
-6. Merge structurally.
+6. Set the Git tracking policy.
+   Completion criterion: if the repository uses Git, use `git check-ignore -v -- <path>` to check the target config path. When `.codex/config.toml` contains or will contain a direct credential value, ensure the repository `.gitignore` ignores that exact file before writing the credential, adding `.codex/config.toml` when needed. Do not add `!.codex/config.toml` or any other negation that would make a credential-bearing config trackable. Credential-free configs that only reference environment variables may remain trackable.
+
+7. Merge structurally.
    Completion criterion: existing repo config content is preserved; each new server is written under the target agent's MCP container; existing server IDs are updated only for MCP-related fields needed by the request. Do not rewrite unrelated config.
 
-7. Handle missing data before writing.
+8. Handle missing data before writing.
    Completion criterion: if a server cannot be represented without inventing a command, URL, or credential variable, ask the user for the missing value instead of guessing. If only an optional field is missing, omit it.
 
-8. Validate the config.
-   Completion criterion: the edited config parses with the correct parser for its format, no duplicate server entry exists, and the diff shows only the intended repo-local config change plus any explicitly requested supporting files.
+9. Validate the config.
+   Completion criterion: the edited config parses with the correct parser for its format, no duplicate server entry exists, `git check-ignore -v -- .codex/config.toml` reports the file when it contains a direct credential value, and the diff shows only the intended repo-local config change plus any required `.gitignore` protection or explicitly requested supporting files.
 
-9. Report activation requirements.
-   Completion criterion: tell the user which agent and repo-local file were changed, mention any trust/approval gate, required environment variables, login command, restart, or reload step, and state which MCP servers were added or updated.
+10. Report activation requirements.
+   Completion criterion: tell the user which agent and repo-local file were changed, whether `.gitignore` protection was added for `.codex/config.toml`, mention any trust/approval gate, required environment variables, login command, restart, or reload step, and state which MCP servers were added or updated.
 
 ## Target Map
 
