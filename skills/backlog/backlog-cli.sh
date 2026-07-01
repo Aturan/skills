@@ -1,4 +1,13 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-BACKLOG_CWD="${BACKLOG_CWD:-$HOME/backlog}" exec backlog "$@"
+if [[ -z "${BACKLOG_CWD:-}" ]]; then
+  if [[ -d "$HOME/backlog" ]]; then
+    BACKLOG_CWD="$HOME/backlog"
+  else
+    BACKLOG_CWD="$HOME/.backlog"
+  fi
+fi
+
+export BACKLOG_CWD
+exec backlog "$@"

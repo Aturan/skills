@@ -1,12 +1,12 @@
 ---
 name: backlog
 description: >-
-  Use Backlog when the user clearly intends to create a Backlog item, including invoking this skill for that purpose, or when a target Backlog object ID is already present and the agent needs to read or write that object.
+  Use Backlog when the user clearly intends to create a Backlog item, including invoking this skill for that purpose, or when a target Backlog object ID is already present and the agent needs to read or write that object. Use this skill's backlog-cli.sh entrypoint for all Backlog operations. Do not call the backlog CLI directly.
 ---
 
 # Backlog
 
-Use this skill as the Backlog.md gate. In this skill, "item" means a Backlog.md item managed through the selected Backlog access path.
+Use this skill as the Backlog.md gate. In this skill, "item" means a Backlog.md item managed through `./backlog-cli.sh`.
 
 ## Trigger Modes
 
@@ -20,21 +20,18 @@ Use Backlog only in these modes:
 
 Do not call Backlog automatically for ordinary implementation requests.
 
-## Access Path
+## CLI Entry Point
 
-Choose the access path before searching, viewing, creating, editing, or finalizing items:
+Use the script entrypoint before searching, viewing, creating, editing, or finalizing items:
 
-1. Prefer Backlog MCP.
-   Completion criterion: if `backlog` MCP tools are available and can complete the requested Backlog operation, use the matching MCP capability for every Backlog operation.
+1. Use `backlog-cli.sh`.
+   Completion criterion: all Backlog reads, searches, creations, edits, comments, status changes, instruction retrieval, and finalization steps use `./backlog-cli.sh` from this skill directory. Unless `BACKLOG_CWD` is already set, the script uses `~/backlog` when it exists and falls back to `~/.backlog`; it forwards arguments to the real CLI.
 
-2. Fall back to `backlog-cli.sh`.
-   Completion criterion: if Backlog MCP is unavailable, missing, or cannot complete the requested Backlog operation, use only `./backlog-cli.sh` from this skill directory for Backlog CLI access. The script sets the default `BACKLOG_CWD` to `~/backlog` and forwards arguments to the real CLI.
+2. Never call `backlog` directly.
+   Completion criterion: do not run `backlog` as a shell command. Do not edit Backlog task, draft, document, decision, or milestone markdown files directly.
 
-3. Never call `backlog` directly.
-   Completion criterion: all CLI reads, searches, creations, edits, comments, status changes, instruction retrieval, and finalization steps go through `./backlog-cli.sh`. Do not run `backlog` as a shell command, and do not edit Backlog task, draft, document, decision, or milestone markdown files directly.
-
-4. Stop if no access path works.
-   Completion criterion: if neither Backlog MCP nor `./backlog-cli.sh` can complete Backlog work, stop Backlog operations and tell the user which access path failed.
+3. Stop if the script cannot complete the work.
+   Completion criterion: if `./backlog-cli.sh` is missing, fails, or cannot complete Backlog work, stop Backlog operations and tell the user what failed.
 
 ## Project Identity
 
@@ -65,7 +62,7 @@ These gates are mandatory:
 
 ## Allowed Operations
 
-Within the Access Path and Safety Gates, the agent may manage the target Backlog item as needed:
+Within the CLI Entry Point and Safety Gates, the agent may manage the target Backlog item as needed:
 
 - Read the target current-project item when a target object ID is already present.
 - Update item fields when the current task changes the tracked work itself, reveals the tracked item is stale, or the user explicitly asks to modify, update, sync, correct, or finalize that item.
@@ -80,31 +77,28 @@ Shared Backlog resources have a stricter boundary:
 
 ## Workflow
 
-1. Select the access path.
-   Completion criterion: Backlog MCP availability is known. If MCP is available, use it. If MCP is unavailable, use `./backlog-cli.sh`. Direct `backlog` CLI use is ruled out.
+1. Retrieve workflow instructions.
+   Completion criterion: use `./backlog-cli.sh` to retrieve overview instructions before Backlog work, and use the returned instructions to choose the next step.
 
-2. Retrieve workflow instructions.
-   Completion criterion: use the selected access path to retrieve overview instructions before Backlog work, and use the returned instructions to choose the next step.
-
-3. Identify the project.
+2. Identify the project.
    Completion criterion: `projectId` and `@projectId` are known; source evidence is collected when available.
 
-4. Verify exact IDs.
-   Completion criterion: when the user supplies, mentions, or the current context contains an exact Backlog item ID, including `TNNN` or `T-NNN`, recognize it as an existing Backlog object and use the selected access path's view capability only to verify ownership. Continue only if the `@projectId` assignee matches the current project. Treating such an ID as a target object does not authorize creating a new item.
+3. Verify exact IDs.
+   Completion criterion: when the user supplies, mentions, or the current context contains an exact Backlog item ID, including `TNNN` or `T-NNN`, recognize it as an existing Backlog object and use `./backlog-cli.sh` only to verify ownership. Continue only if the `@projectId` assignee matches the current project. Treating such an ID as a target object does not authorize creating a new item.
 
-5. Search current-project items only when allowed.
+4. Search current-project items only when allowed.
    Completion criterion: search only after explicit creation intent is satisfied for duplicate/current-project lookup, or after a target Backlog object ID is already present and related-item lookup is required. Use exact-ID view, not search, for ownership verification of a supplied ID. Prefer a list operation with `assignee="@projectId"` and focused filters such as status, labels, milestone, search, or limit. Use broad search only as a secondary step. A result is usable as a target object only after `@projectId` assignee matches the current project.
 
-6. Create items.
-   Completion criterion: when Safety Gate 2 is satisfied and no existing current-project item fits, retrieve task-creation instructions through the selected access path, then create the smallest reviewable item. Include `assignee=["@projectId"]`, outcome-focused description, testable acceptance criteria, useful documentation, and project-root-relative modified files when known. After creating a Git-backed item, use the selected access path to write the source comment with `projectId` and repository URL.
+5. Create items.
+   Completion criterion: when Safety Gate 2 is satisfied and no existing current-project item fits, retrieve task-creation instructions through `./backlog-cli.sh`, then create the smallest reviewable item. Include `assignee=["@projectId"]`, outcome-focused description, testable acceptance criteria, useful documentation, and project-root-relative modified files when known. After creating a Git-backed item, use `./backlog-cli.sh` to write the source comment with `projectId` and repository URL.
 
-7. Manage tracked work.
-   Completion criterion: before implementing or changing tracked work, retrieve task-execution instructions through the selected access path. Read tracked state as needed. Within Allowed Operations, update the target item whenever the task changes the tracked work or the item must stay accurate. Create a split or follow-up item only when the user clearly intends to create a Backlog item.
+6. Manage tracked work.
+   Completion criterion: before implementing or changing tracked work, retrieve task-execution instructions through `./backlog-cli.sh`. Read tracked state as needed. Within Allowed Operations, update the target item whenever the task changes the tracked work or the item must stay accurate. Create a split or follow-up item only when the user clearly intends to create a Backlog item.
 
-8. Finalize items.
-   Completion criterion: before marking tracked work complete, retrieve task-finalization instructions through the selected access path and verify acceptance criteria. Update checked criteria, final summary, or completion status only when Allowed Operations apply and the returned instructions' completion rules are satisfied.
+7. Finalize items.
+   Completion criterion: before marking tracked work complete, retrieve task-finalization instructions through `./backlog-cli.sh` and verify acceptance criteria. Update checked criteria, final summary, or completion status only when Allowed Operations apply and the returned instructions' completion rules are satisfied.
 
-9. Delete, archive, or cleanup.
+8. Delete, archive, or cleanup.
    Completion criterion: before deleting, archiving, or cleanup, verify Safety Gate 3 and Safety Gate 4, then verify current-project ownership again. Prefer status changes for completed work. Archive only duplicate, canceled, or invalid items. Delete only when the user or returned instructions specifically requires deletion.
 
 ## Scope Changes
